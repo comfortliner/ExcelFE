@@ -517,7 +517,7 @@ Private Sub setNumbers(ByVal column As ImyColumn)
     .IgnoreBlank = True
     .InCellDropdown = False
     .InputTitle = vbNullString
-    .ErrorTitle = "Fehler bei der Datenueberpruefung"
+    .ErrorTitle = "Fehler"
     .InputMessage = vbNullString
     .ErrorMessage = column.ErrorMessage
     .ShowInput = True
@@ -545,7 +545,7 @@ Private Sub setSingleChars(ByVal column As ImyColumn)
     .IgnoreBlank = True
     .InCellDropdown = False
     .InputTitle = vbNullString
-    .ErrorTitle = "Fehler bei der Datenueberpruefung"
+    .ErrorTitle = "Fehler"
     .InputMessage = vbNullString
     .ErrorMessage = column.ErrorMessage
     .ShowInput = True
@@ -575,7 +575,7 @@ Private Sub setDates(ByVal column As ImyColumn)
     .IgnoreBlank = True
     .InCellDropdown = False
     .InputTitle = vbNullString
-    .ErrorTitle = "Fehler bei der Datenueberpruefung"
+    .ErrorTitle = "Fehler"
     .InputMessage = vbNullString
     .ErrorMessage = column.ErrorMessage
     .ShowInput = True
@@ -603,7 +603,7 @@ Private Sub setDropDown(ByVal column As ImyColumn)
     .IgnoreBlank = True
     .InCellDropdown = True
     .InputTitle = vbNullString
-    .ErrorTitle = "Fehler bei der Datenueberpruefung"
+    .ErrorTitle = "Fehler"
     .InputMessage = vbNullString
     .ErrorMessage = column.ErrorMessage
     .ShowInput = True
