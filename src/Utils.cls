@@ -20,6 +20,14 @@ Private Declare Function ShellExecute _
   Optional ByVal Directory As String, _
   Optional ByVal WindowStyle As Long = vbMinimizedFocus _
   ) As Long
+  
+Private Declare Function URLDownloadToFile Lib "urlmon" Alias _
+  "URLDownloadToFileA" ( _
+  ByVal pCaller As Long, ByVal szURL As String, _
+  ByVal szFileName As String, _
+  ByVal dwReserved As Long, _
+  ByVal lpfnCB As Long _
+  ) As Long
 
 Public Sub openURL(ByVal url As String)
 On Error GoTo Err_OpenURL
@@ -34,6 +42,58 @@ Err_OpenURL:
   myLogger.LogError Err.Number & ": " & Err.Source & " / " & Err.Description, "Utils.openURL"
   Resume Exit_OpenURL
 
+End Sub
+
+
+Sub SaveFileFromSPInUserProfileAndOpenIt()
+' Copy and use this Sub into Start_Plama...xlsb
+On Error Resume Next
+
+Dim ThisWorkbook As Workbook
+Dim fso As New FileSystemObject
+Dim fileToCopy As String: fileToCopy = Mid(ActiveWorkbook.name, InStr(ActiveWorkbook.name, "_") + 1, 30)
+Dim SourceSPUrl As String
+Dim UserProfile, DestinationPath, DestinationSubPath As String
+Dim Source, Destination As String
+Dim returnValue As Long
+
+  
+  SourceSPUrl = ActiveWorkbook.Path
+  
+  UserProfile = Environ("UserProfile")
+  DestinationSubPath = "PlaMa"
+  DestinationPath = UserProfile & "\" & DestinationSubPath
+  
+  Source = SourceSPUrl & "/_DO_NOT_USE/" & fileToCopy
+  Destination = DestinationPath & "\" & fileToCopy
+  
+  
+  
+  Application.ScreenUpdating = False
+  
+  If Not fso.FolderExists(DestinationPath) Then
+    fso.CreateFolder DestinationPath
+  End If
+
+  returnValue = URLDownloadToFile(0, Source, Destination, 0, 0)
+    
+  Application.ScreenUpdating = True
+    
+  If returnValue = 0 Then
+    Set ThisWorkbook = ActiveWorkbook
+    Workbooks.Open (Destination)
+    ThisWorkbook.Close
+  Else
+    MsgBox "Fehler beim Kopieren der Datei " & fileToCopy & vbCrLf & _
+      "Startdatei wird jetzt geschlossen."
+    
+    If Application.Workbooks.Count = 1 Then
+      Application.Quit
+    Else
+      ActiveWorkbook.Close
+    End If
+  End If
+  
 End Sub
 
 Public Sub writeToDB(ByVal Target As Range)
