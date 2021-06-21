@@ -29,7 +29,3 @@ Private Sub Worksheet_SelectionChange(ByVal Target As Range)
   Utils.preventMultiSelection Target
 
 End Sub
-
-
-
-
